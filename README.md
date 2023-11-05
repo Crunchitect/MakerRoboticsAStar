@@ -10,4 +10,7 @@ We added a `r(n)` which is a turning factor
 ![Func](function.png)
 
 Which adds a cost `k` (this case is `10`), If the direction changes.
-![](turn.png)
+![Turn](turn.png)
+
+And change `h(n)` from Euclidean Distance to Manhattan Distance
+![Dist](https://uploads-cdn.omnicalculator.com/images/manhattan_distance.png?width=748&enlarge=0&format=webp)
