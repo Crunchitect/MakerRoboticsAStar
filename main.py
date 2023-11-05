@@ -92,10 +92,10 @@ def astar(maze, start, end):
             child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1])
             try:
                 child.t = ((current_node - current_node.parent) != (child - current_node)) * 10
-                print(child.t, (current_node - current_node.parent), (child - current_node))
+                # print(child.t, (current_node - current_node.parent), (child - current_node))
             except AttributeError:
                 child.t = 0
-            print(child.g, child.h, child.t)
+            # print(child.g, child.h, child.t)
             child.f = child.g + child.h + child.t
 
             # Child is already in the open list
@@ -107,8 +107,29 @@ def astar(maze, start, end):
             open_list.append(child)
 
 
-def main():
+def get_path_str(path_list):
+    directions = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+    direction_string = ''
+    direction = list(map(lambda x: x[1] - x[0], zip(path_list[0], path_list[1])))
+    direction_index = directions.index(direction)
+    direction_string += str(direction_index)
+    delta_path = [list(map(lambda x: x[1] - x[0], zip(path_list[i], path_list[i+1]))) for i in range(len(path_list)-1)]
+    for i in delta_path:
+        if i == direction:
+            direction_string += 'f'
+        elif i == directions[direction_index-1]:
+            direction_string += 'lf'
+            direction_index = direction_index - 1 if (direction_index - 1) < 0 else 3
+            direction = directions[direction_index]
+        else:
+            direction_string += 'rf'
+            direction_index = direction_index + 1 if (direction_index - 1) > 4 else 0
+            direction = directions[direction_index]
+    return direction_string
 
+
+
+def main():
     maze = [
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
         [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
@@ -122,11 +143,25 @@ def main():
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ]
 
-    start = (3, 1)
-    end = (0, 12)
-
-    path = astar(maze, start, end)
-    print(path)
+    start_points = [
+        (3, 1), (5, 1), (6, 2), (7, 3), (8, 4), (7, 5),
+        (6, 6), (5, 7), (4, 8), (3, 9), (2, 10), (1, 11), (0, 12)
+    ]
+    end_points = [
+        (5, 1), (6, 2), (7, 3), (8, 4), (7, 5),
+        (6, 6), (5, 7), (4, 8), (3, 9), (2, 10), (1, 11), (0, 12)
+    ]
+    print('{', end='')
+    for start in start_points:
+        for end in end_points:
+            try:
+                print('{', end='')
+                path = astar(maze, start, end)
+                print(start[0], start[1], end[0], end[1], sep=',', end='')
+                # print(start, end)
+                print(',"' + get_path_str(path) + '"', end='},')
+            except IndexError:
+                print(' ')
 
 
 if __name__ == '__main__':
