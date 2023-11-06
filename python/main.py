@@ -124,7 +124,7 @@ def get_path_str(path_list):
             direction = directions[direction_index]
         elif i == directions[(direction_index+1)%4]:
             direction_string += 'rf'
-            direction_index = direction_index + 1 if (direction_index - 1) > 4 else 0
+            direction_index = direction_index + 1 if (direction_index - 1) > 3 else 0
             direction = directions[direction_index]
         else:
             direction_string += 'f'
