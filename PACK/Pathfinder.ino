@@ -3,6 +3,9 @@
 #define SOUTH 2
 #define WEST  3
 
+// Save memory, it's almost full :[
+char xplace = 0;
+
 int strlen(char* str) {
   int i;
   for (i=0; str[i]!='\0'; i++); 
@@ -42,12 +45,60 @@ void to_place(short place) {
       get_path_str(get_x(), get_y(), pos2x, pos2y)
     )
   ) {
-    follow_path_str(get_path_str(get_x(), get_y(), pos2x, pos2y))
+    go_to(pos2x, pos2y);
+    // glcd(1, 1, "%d", get_dir());
     if (place <= 2) { set_dir(SOUTH); }
     else { set_dir(EAST); }
+    xplace = place | 0b1000;
   } else {
-    follow_path_str(get_path_str(get_x(), get_y(), pos1x, pos1y))
-    if (place <= 2) { set_dir(NORTH); }
-    else { set_dir(EAST); ]
+    go_to(pos1x, pos1y);
+    if (place <= 2) { set_dir(EAST); }
+    else { FF(75); set_dir(NORTH); }
+    xplace = place;
   }
 }
+
+void to_can(short can) {
+  short pos1x, pos1y, pos2x, pos2y;
+  switch (can) {
+    // Special Case
+    case 1:
+      go_to(5, 1); set_dir(SOUTH); return;
+    case 2:
+      pos1x = 6; pos1y = 2;
+      pos2x = 7; pos2y = 3; break;
+    // Special Case
+    case 3:
+      go_to(8, 4); set_dir(EAST); return;
+    case 4:
+      pos1x = 7; pos1y = 5;
+      pos2x = 6; pos2y = 6; break;
+    case 5:
+      pos1x = 5; pos1y = 7;
+      pos2x = 4; pos2y = 8; break;
+    case 6:
+      pos1x = 3; pos1y = 9;
+      pos2x = 2; pos2y = 10; break;
+    case 7:
+      pos1x = 1; pos1y = 11;
+      pos2x = 0; pos2y = 12; break;
+  }
+  if (
+    strlen(
+      get_path_str(get_x(), get_y(), pos1x, pos1y)
+    ) >
+    strlen(
+      get_path_str(get_x(), get_y(), pos2x, pos2y)
+    )
+  ) {
+    go_to(pos2x, pos2y);
+    if (can == 2) { set_dir(SOUTH); }
+    else { set_dir(EAST); }
+  } else {
+    go_to(pos1x, pos1y);
+    if (can == 2) { set_dir(EAST); }
+    else { FF(75); set_dir(NORTH); }
+  }
+}
+
+short get_place() { return xplace; }

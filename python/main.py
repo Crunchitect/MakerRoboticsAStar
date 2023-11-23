@@ -1,4 +1,3 @@
-import clipboard
 
 class Node:
     """A node class for A* Pathfinding"""
@@ -120,11 +119,11 @@ def get_path_str(path_list):
             direction_string += 'f'
         elif i == directions[direction_index-1]:
             direction_string += 'lf'
-            direction_index = direction_index - 1 if (direction_index - 1) < 0 else 3
+            direction_index = direction_index - 1 if direction_index != 0 else 3
             direction = directions[direction_index]
-        elif i == directions[(direction_index+1)%4]:
+        elif i == directions[(direction_index+1) % 4]:
             direction_string += 'rf'
-            direction_index = direction_index + 1 if (direction_index - 1) > 3 else 0
+            direction_index = (direction_index + 1) % 4
             direction = directions[direction_index]
         else:
             direction_string += 'f'
@@ -154,7 +153,7 @@ def main():
     ]
     end_points = [
         (5, 1), (6, 2), (7, 3), (8, 4), (7, 5),
-        (6, 6), (5, 7), (4, 8), (3, 9), (2, 10), (1, 11), (0, 12)
+        (6, 6), (5, 7), (4, 8), (3, 9), (2, 10), (1, 11), (0, 12), (4, 1)
     ]
     ix = 144
     points = []
@@ -176,6 +175,7 @@ def main():
              .replace(']', '}')
              .replace("'", '"')
     )
+    print(len(paths))
 
 
 if __name__ == '__main__':

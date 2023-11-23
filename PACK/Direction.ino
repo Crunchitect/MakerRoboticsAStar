@@ -10,7 +10,7 @@ void CrossFront(){
 }
 
 void CrossBack(){
-  state = 1;
+  // state = 1;
   while(1){
     PidBack(BaseSpeed, Kp, Kd);
     if(analog(5) > 550 && analog(7) > 550) break;

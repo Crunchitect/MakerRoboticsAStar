@@ -24,36 +24,49 @@ int LeftMotorSpeed, RightMotorSpeed;
 int BaseSpeed; float Kp, Kd;
 
 void grab() {
-  CrossFront();
-  fd(30); while(analog(2) > 550);
-  servo(1, 30);
-  bk(30); while(analog(2) < 550);
-  bk(30); while(analog(2) > 550);
-  bk(30); while(analog(2) < 550);
   FF(75);
+  CrossFront();
+  fd(30); while(analog(0) > 550);
+  servo(1, 30);
+  bk(30); while(analog(0) < 550); while(analog(0) > 550); while(analog(0) < 550);
+  ao();
+  // FF(75);
+}
+
+void drop() {
+  FF(250);
+  ao();
+  servo(1, 100);
+  ao(); delay(50);
+  BB(350);
+  ao();
 }
 
 void start() {
   servo(1, 100);
-  // FF(150);
   CrossFront();
-  // FF(75);
+}
+
+void get_next_can() {
+  to_can(get_closest_can());
+  take_can(get_closest_can());
+  grab();
 }
 
 void setup() {
   InitMotor();
   OK();
-  BaseSpeed = 100; Kp = 2.6; Kd = 100;
+  BaseSpeed = 100; Kp = 2.4; Kd = 100;
   start();
-  glcdClear();
-  delay(100);
-  go_to(5, 1);
-  set_dir(SOUTH);
+  // glcdClear();
+  take_can(1);
+  to_can(1);
   grab();
-  // go_to(5, 7);
-  // set_dir(EAST);
-  to_place(4);
-  servo(1, 100);
+  to_place(read_can());
+  drop();
+  get_next_can();
+  to_place(read_can());
+  drop();
 }
 
 void loop() {
