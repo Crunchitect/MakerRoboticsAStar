@@ -2,8 +2,8 @@
 #define xxplace() (get_place() & 0b0111) - 1
 #define xxpart()   get_place() & 0b1000
 
-// bool cans[7] = {true, true, true, true, true, true, true};
-bool cans[7] = {1, 0, 1, 0, 0, 0, 0};
+bool cans[7] = {true, true, true, true, true, true, true};
+// bool cans[7] = {1, 0, 1, 0, 0, 0, 0};
 
 void take_can(short idx) {
   cans[idx - 1] = false;

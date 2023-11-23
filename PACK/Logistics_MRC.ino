@@ -53,22 +53,23 @@ void get_next_can() {
   grab();
 }
 
+void deliver_a_can() {
+  get_next_can();
+  to_place(read_can());
+  drop();
+}
+
 void setup() {
   InitMotor();
   OK();
   BaseSpeed = 100; Kp = 2.4; Kd = 100;
   start();
   // glcdClear();
-  take_can(1);
-  to_can(1);
-  grab();
-  to_place(read_can());
-  drop();
-  get_next_can();
-  to_place(read_can());
-  drop();
+  // take_can(1);
+  // to_can(1);
+  deliver_a_can();
+  deliver_a_can();
+  deliver_a_can();
 }
 
-void loop() {
-  
-}
+void loop() {}
