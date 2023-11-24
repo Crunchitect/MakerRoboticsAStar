@@ -25,5 +25,5 @@ short get_closest_can() {
 }
 
 char read_can() {
-  return (analog(11) < 300) + (analog(10) < 300) * 2 + (analog(9) < 300) * 4;
+  return (analog(11) < 300) | (analog(10) < 300) << 1 | (analog(9) < 300) << 2;
 }
