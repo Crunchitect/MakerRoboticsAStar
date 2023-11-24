@@ -1,6 +1,6 @@
 #include <ATX2.h>
-#define xxplace() (get_place() & 0b0111) - 1
-#define xxpart()   get_place() & 0b1000
+#define xxplace() (get_place() & 7) - 1
+#define xxpart()   get_place() & 8
 
 bool cans[7] = {true, true, true, true, true, true, true};
 // bool cans[7] = {1, 0, 1, 0, 0, 0, 0};
