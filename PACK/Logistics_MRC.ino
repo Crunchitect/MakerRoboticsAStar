@@ -26,9 +26,10 @@ int BaseSpeed; float Kp, Kd;
 void grab() {
   FF(75);
   CrossFront();
-  fd(30); while(analog(0) > 550);
+  fd(30); while(analog(0) > 550); ao(); delay(100);
   servo(1, 30);
   bk(30); while(analog(0) < 550); while(analog(0) > 550); while(analog(0) < 550);
+  FF(15);
   ao();
   // FF(75);
 }
@@ -47,15 +48,13 @@ void start() {
   CrossFront();
 }
 
-void get_next_can() {
+void deliver_a_can(int cann) {
   to_can(get_closest_can());
   take_can(get_closest_can());
   grab();
-}
-
-void deliver_a_can() {
-  get_next_can();
-  to_place(read_can());
+  // to_place(read_can());
+  to_place(cann);
+  ao(); delay(250);
   drop();
 }
 
@@ -64,12 +63,14 @@ void setup() {
   OK();
   BaseSpeed = 100; Kp = 2.4; Kd = 100;
   start();
-  // glcdClear();
-  // take_can(1);
-  // to_can(1);
-  deliver_a_can();
-  deliver_a_can();
-  deliver_a_can();
+  glcdClear();
+  deliver_a_can(3);
+  deliver_a_can(2);
+  deliver_a_can(1);
+  deliver_a_can(4);
+  deliver_a_can(5);
+  deliver_a_can(6);
+  deliver_a_can(7);
 }
 
 void loop() {}

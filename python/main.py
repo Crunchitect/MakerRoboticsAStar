@@ -164,6 +164,9 @@ def main():
             path = astar(maze, start, end)
             points.append([start, end])
             paths.append(get_path_str(path))
+            if start[0] == 1 and start[1] == 11 and \
+                end[0] == 0 and end[1] == 12:
+                print(get_path_str(path), len(paths))
     print(
         str(points).replace('(', '{')
               .replace('[', '{')
@@ -175,7 +178,7 @@ def main():
              .replace(']', '}')
              .replace("'", '"')
     )
-    print(len(paths))
+    print(paths[143], len(paths))
 
 
 if __name__ == '__main__':

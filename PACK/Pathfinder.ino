@@ -6,15 +6,13 @@
 // Save memory, it's almost full :[
 char xplace = 0;
 
-int strlen(char* str) {
-  int i;
-  for (i=0; str[i]!='\0'; i++); 
-  return i;
-}
-
 void to_place(short place) {
   short pos1x, pos1y, pos2x, pos2y;
   switch (place) {
+    case 0:
+      // Haha funny
+      go_to(69, 420);
+      sl(45); delay(500); ao(); return;
     case 1:
       pos1x = 5; pos1y = 1;
       pos2x = 6; pos2y = 2; break;
@@ -37,21 +35,17 @@ void to_place(short place) {
       pos1x = 0; pos1y = 12;
       pos2x = 0; pos2y = 12; break;
   }
-  if (
-    strlen(
-      get_path_str(get_x(), get_y(), pos1x, pos1y)
-    ) >
-    strlen(
-      get_path_str(get_x(), get_y(), pos2x, pos2y)
-    )
-  ) {
-    go_to(pos2x, pos2y);
+  char path1[50]; strncpy(path1, get_path_str(get_x(), get_y(), pos1x, pos1y), 50);
+  char path2[50]; strncpy(path2, get_path_str(get_x(), get_y(), pos2x, pos2y), 50);
+  if (strlen(path1) > strlen(path2)) {
+    if (*path2 != 45) go_to(pos2x, pos2y);
     // glcd(1, 1, "%d", get_dir());
     if (place <= 2) { set_dir(SOUTH); }
     else { set_dir(EAST); }
     xplace = place | 0b1000;
   } else {
-    go_to(pos1x, pos1y);
+    if (*path1 != 45) go_to(pos1x, pos1y);
+    // glcd(1, 1, "%d", get_dir());
     if (place <= 2) { set_dir(EAST); }
     else { FF(75); set_dir(NORTH); }
     xplace = place;
@@ -82,20 +76,21 @@ void to_can(short can) {
     case 7:
       pos1x = 1; pos1y = 11;
       pos2x = 0; pos2y = 12; break;
+    // Bonus Can
+    case 69:
+      go_to(4, 1); set_dir(SOUTH); return;
   }
-  if (
-    strlen(
-      get_path_str(get_x(), get_y(), pos1x, pos1y)
-    ) >
-    strlen(
-      get_path_str(get_x(), get_y(), pos2x, pos2y)
-    )
-  ) {
-    go_to(pos2x, pos2y);
+  char xpath1[30]; 
+  strncpy(xpath1, get_path_str(get_x(), get_y(), pos1x, pos1y), 30);
+  char path2[30]; 
+  strncpy(path2, get_path_str(get_x(), get_y(), pos2x, pos2y), 30);
+  // glcd(1, 1, "%d %d", *path2, *xpath1);
+  if (strlen(xpath1) > strlen(path2)) {
+    if (*path2 != 45) go_to(pos2x, pos2y);
     if (can == 2) { set_dir(SOUTH); }
     else { set_dir(EAST); }
   } else {
-    go_to(pos1x, pos1y);
+    if (*xpath1 != 45) go_to(pos1x, pos1y);
     if (can == 2) { set_dir(EAST); }
     else { FF(75); set_dir(NORTH); }
   }
