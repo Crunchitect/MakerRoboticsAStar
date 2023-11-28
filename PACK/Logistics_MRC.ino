@@ -29,7 +29,7 @@ void grab() {
   fd(30); while(analog(0) > 550); ao(); delay(100);
   servo(1, 30);
   bk(30); while(analog(0) < 550); while(analog(0) > 550); while(analog(0) < 550);
-  FF(15);
+  FF(45);
   ao();
   // FF(75);
 }
@@ -54,23 +54,24 @@ void deliver_a_can(int cann) {
   grab();
   // to_place(read_can());
   to_place(cann);
-  ao(); delay(250);
   drop();
 }
 
 void setup() {
   InitMotor();
   OK();
-  BaseSpeed = 100; Kp = 2.4; Kd = 100;
+  BaseSpeed = 90; Kp = 2.4; Kd = 100;
   start();
   glcdClear();
   deliver_a_can(3);
   deliver_a_can(2);
   deliver_a_can(1);
-  deliver_a_can(4);
-  deliver_a_can(5);
   deliver_a_can(6);
   deliver_a_can(7);
+  deliver_a_can(5);
+  deliver_a_can(4);
+  to_bonus();
+  place_bonus();
 }
 
 void loop() {}

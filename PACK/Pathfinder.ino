@@ -38,16 +38,18 @@ void to_place(short place) {
   char path1[50]; strncpy(path1, get_path_str(get_x(), get_y(), pos1x, pos1y), 50);
   char path2[50]; strncpy(path2, get_path_str(get_x(), get_y(), pos2x, pos2y), 50);
   if (strlen(path1) > strlen(path2)) {
+    // glcd(1, 1, path1);
     if (*path2 != 45) go_to(pos2x, pos2y);
     // glcd(1, 1, "%d", get_dir());
     if (place <= 2) { set_dir(SOUTH); }
     else { set_dir(EAST); }
     xplace = place | 0b1000;
   } else {
+    // glcd(1, 1, path2);
     if (*path1 != 45) go_to(pos1x, pos1y);
     // glcd(1, 1, "%d", get_dir());
     if (place <= 2) { set_dir(EAST); }
-    else { FF(75); set_dir(NORTH); }
+    else {  set_dir(NORTH); }
     xplace = place;
   }
 }
@@ -87,13 +89,26 @@ void to_can(short can) {
   // glcd(1, 1, "%d %d", *path2, *xpath1);
   if (strlen(xpath1) > strlen(path2)) {
     if (*path2 != 45) go_to(pos2x, pos2y);
-    if (can == 2) { set_dir(SOUTH); }
+    if (can == 2) { BB(80); set_dir(SOUTH); }
     else { set_dir(EAST); }
   } else {
     if (*xpath1 != 45) go_to(pos1x, pos1y);
-    if (can == 2) { set_dir(EAST); }
+    if (can == 2) { BB(85); set_dir(EAST); }
     else { FF(75); set_dir(NORTH); }
   }
+}
+
+void to_bonus() {
+  go_to(4, 1);
+  grab();
+}
+
+void place_bonus() {
+  go_to(2, 7);
+  sl(50);
+  delay(100);
+  BB(100);
+  drop();
 }
 
 short get_place() { return xplace; }
